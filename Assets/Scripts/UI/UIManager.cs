@@ -1,65 +1,77 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using VContainer;
 using Core;
-using Data;
 
 namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        [Header("Panels")]
-        [SerializeField] private GameObject startPanel;
-        [SerializeField] private GameObject playPanel;
-
-        [Header("Start Screen UI")]
-        [SerializeField] private TextMeshProUGUI startLevelText;
-        [SerializeField] private Button tapToStartButton;
+        [Header("UI Panels")]
+        [SerializeField] private StartScreenPanel startScreenPanel;
+        [SerializeField] private PlayScreenPanel    playScreenPanel;
+        [SerializeField] private EndGamePanel       endGamePanel;
+        [SerializeField] private PerkSelectionPanel perkSelectionPanel;
 
         private GameManager _gameManager;
-        private SaveManager _saveManager;
 
         [Inject]
-        public void Construct(GameManager gameManager, SaveManager saveManager)
+        public void Construct(IObjectResolver resolver, GameManager gameManager)
         {
             _gameManager = gameManager;
-            _saveManager = saveManager;
+
+            if(startScreenPanel != null) resolver.Inject(startScreenPanel);
+            if(playScreenPanel != null) resolver.Inject(playScreenPanel);
+            if(endGamePanel != null) resolver.Inject(endGamePanel);
+            if(perkSelectionPanel != null) resolver.Inject(perkSelectionPanel);
         }
 
         private void Start()
         {
-            if(tapToStartButton != null)
+            if(_gameManager != null)
             {
-                tapToStartButton.onClick.AddListener(OnTapToStartClicked);
-            }
+                _gameManager.OnStateChanged += HandleStateChanged;
+                _gameManager.OnGameEnded    += HandleGameEnded;
 
-            UpdateUIState(GameState.StartScreen);
+                HandleStateChanged(_gameManager.CurrentState);
+            }
         }
 
-        private void OnTapToStartClicked()
+        private void HandleStateChanged(GameState state)
         {
-            _gameManager.StartGame();
-            UpdateUIState(GameState.Playing);
+            if(startScreenPanel != null)
+            {
+                if(state == GameState.StartScreen) startScreenPanel.Show();
+                else startScreenPanel.Hide();
+            }
+
+            if(playScreenPanel != null)
+            {
+                if(state == GameState.Playing) playScreenPanel.Show();
+                else playScreenPanel.Hide();
+            }
+
+            if(perkSelectionPanel != null)
+            {
+                if(state == GameState.PausedForPerk) perkSelectionPanel.Show();
+                else perkSelectionPanel.Hide();
+            }
+
+            if(endGamePanel != null && state != GameState.EndGame)
+                endGamePanel.Hide();
         }
 
-        public void UpdateUIState(GameState state)
+        private void HandleGameEnded(bool isWin)
         {
-            if(startPanel != null) startPanel.SetActive(state == GameState.StartScreen);
-            if(playPanel != null) playPanel.SetActive(state == GameState.Playing);
-
-            if(state == GameState.StartScreen && startLevelText != null && _saveManager != null)
-            {
-                int currentLevel = _saveManager.GetCurrentLevel();
-                startLevelText.text = $"Level {currentLevel}";
-            }
+            if(endGamePanel != null)
+                endGamePanel.Show(isWin);
         }
 
         private void OnDestroy()
         {
-            if(tapToStartButton != null)
+            if(_gameManager != null)
             {
-                tapToStartButton.onClick.RemoveAllListeners();
+                _gameManager.OnStateChanged -= HandleStateChanged;
+                _gameManager.OnGameEnded    -= HandleGameEnded;
             }
         }
     }
