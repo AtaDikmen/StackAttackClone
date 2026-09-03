@@ -49,8 +49,11 @@ namespace Gameplay
         private Color            _originalGroundColor;
         private bool             _hasCapturedOriginalColors;
 
-        private GameManager  GameManager  => _gameManager  ??= _resolver?.Resolve<GameManager>();
-        private XPSystem     XPSystem     => _xpSystem     ??= _resolver?.Resolve<XPSystem>();
+        private readonly static int BaseColorProp = Shader.PropertyToID("_BaseColor");
+        private readonly static int ColorProp     = Shader.PropertyToID("_Color");
+
+        private GameManager  GameManager  => _gameManager ??= _resolver?.Resolve<GameManager>();
+        private XPSystem     XPSystem     => _xpSystem ??= _resolver?.Resolve<XPSystem>();
         private AudioManager AudioManager => _audioManager ??= _resolver?.Resolve<AudioManager>();
 
         public int AvailableLevelCount => levels != null ? levels.Length : 0;
@@ -79,7 +82,7 @@ namespace Gameplay
 
             if(groundRenderer != null && groundRenderer.material != null)
             {
-                _originalGroundColor = groundRenderer.material.color;
+                _originalGroundColor = GetMaterialColor(groundRenderer.material);
             }
 
             _hasCapturedOriginalColors = true;
@@ -243,7 +246,7 @@ namespace Gameplay
                 _spawnedGroupObjects.Add(groupObj);
                 _normalGroupObjects.Add(groupObj);
 
-                ObstacleGroup groupComp = groupObj.AddComponent<ObstacleGroup>();
+                var groupComp = groupObj.AddComponent<ObstacleGroup>();
 
                 Obstacle obstacle = InstantiateObstacle(origin, setup);
                 groupComp.AddMember(obstacle);
@@ -256,6 +259,9 @@ namespace Gameplay
         {
             XPSystem?.SetXPEnabled(false);
             AudioManager?.PlayBossPhaseStart();
+
+            if(groundRenderer != null)
+                groundRenderer.gameObject.SetActive(false);
 
             TransitionBackgroundColor(bossPhaseBgColor, bgTransitionDuration, token).Forget();
 
@@ -404,7 +410,7 @@ namespace Gameplay
 
             mainCamera.clearFlags = CameraClearFlags.SolidColor;
             Color startCamColor    = mainCamera.backgroundColor;
-            Color startGroundColor = groundRenderer != null && groundRenderer.material != null ? groundRenderer.material.color : targetColor;
+            Color startGroundColor = groundRenderer != null && groundRenderer.material != null ? GetMaterialColor(groundRenderer.material) : targetColor;
 
             float elapsed = 0f;
             while(elapsed < duration)
@@ -417,25 +423,28 @@ namespace Gameplay
                 if(mainCamera != null)
                     mainCamera.backgroundColor = Color.Lerp(startCamColor, targetColor, t);
 
-                if(groundRenderer != null && groundRenderer.material != null)
-                    groundRenderer.material.color = Color.Lerp(startGroundColor, targetColor, t);
+                if(groundRenderer != null && groundRenderer.gameObject.activeSelf && groundRenderer.material != null)
+                    SetMaterialColor(groundRenderer.material, Color.Lerp(startGroundColor, targetColor, t));
 
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
 
-            if(mainCamera != null) mainCamera.backgroundColor                                           = targetColor;
-            if(groundRenderer != null && groundRenderer.material != null) groundRenderer.material.color = targetColor;
+            if(mainCamera != null) mainCamera.backgroundColor = targetColor;
+            if(groundRenderer != null && groundRenderer.gameObject.activeSelf && groundRenderer.material != null) SetMaterialColor(groundRenderer.material, targetColor);
         }
 
         private async UniTask RestoreBackgroundColors(float duration)
         {
             if(!_hasCapturedOriginalColors) return;
 
+            if(groundRenderer != null)
+                groundRenderer.gameObject.SetActive(true);
+
             try
             {
                 await TransitionBackgroundColor(_originalCameraColor, duration, this.GetCancellationTokenOnDestroy());
                 if(mainCamera != null) mainCamera.clearFlags = _originalClearFlags;
-                if(groundRenderer != null && groundRenderer.material != null) groundRenderer.material.color = _originalGroundColor;
+                if(groundRenderer != null && groundRenderer.material != null) SetMaterialColor(groundRenderer.material, _originalGroundColor);
             }
             catch(OperationCanceledException)
             {
@@ -446,6 +455,9 @@ namespace Gameplay
         {
             if(!_hasCapturedOriginalColors) return;
 
+            if(groundRenderer != null)
+                groundRenderer.gameObject.SetActive(true);
+
             if(mainCamera == null) mainCamera = Camera.main;
             if(mainCamera != null)
             {
@@ -454,7 +466,21 @@ namespace Gameplay
             }
 
             if(groundRenderer != null && groundRenderer.material != null)
-                groundRenderer.material.color = _originalGroundColor;
+                SetMaterialColor(groundRenderer.material, _originalGroundColor);
+        }
+
+        private Color GetMaterialColor(Material mat)
+        {
+            if(mat.HasProperty(BaseColorProp)) return mat.GetColor(BaseColorProp);
+            if(mat.HasProperty(ColorProp)) return mat.GetColor(ColorProp);
+            return mat.color;
+        }
+
+        private void SetMaterialColor(Material mat, Color color)
+        {
+            if(mat.HasProperty(BaseColorProp)) mat.SetColor(BaseColorProp, color);
+            else if(mat.HasProperty(ColorProp)) mat.SetColor(ColorProp, color);
+            else mat.color = color;
         }
 
         private WaveData CreateDefaultBossWave()
