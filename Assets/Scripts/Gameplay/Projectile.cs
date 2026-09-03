@@ -32,6 +32,10 @@ namespace Gameplay
         private float _curveDirection  = 1f;
         private float _explosionRadius = 2.5f;
 
+        private       Transform _homingTarget;
+        private const float     HomingSearchRadius = 25f;
+        private const float     HomingTurnSpeed    = 10f;
+
         private IObjectPool<Projectile> _pool;
         private AudioManager            _audioManager;
 
@@ -68,11 +72,12 @@ namespace Gameplay
             _startPosition = transform.position;
             _isReturning   = false;
             _isRecycled    = false;
+            _homingTarget  = null;
             _hitObstacleIds.Clear();
 
             if(_type == WeaponType.Rocket)
             {
-                float launchAngle = _curveDirection * 38f;
+                float launchAngle = _curveDirection * 35f;
                 transform.rotation = Quaternion.Euler(0f, launchAngle, 0f);
             }
         }
@@ -142,13 +147,53 @@ namespace Gameplay
 
         private void UpdateRocket()
         {
-            float currentAngle                   = transform.eulerAngles.y;
-            if(currentAngle > 180f) currentAngle -= 360f;
+            if(_homingTarget == null || !_homingTarget.gameObject.activeInHierarchy)
+                _homingTarget = FindClosestObstacleAhead();
 
-            float newAngle = Mathf.Lerp(currentAngle, 0f, Time.deltaTime * 4.5f);
-            transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
+            if(_homingTarget != null)
+            {
+                Vector3 targetDir = (_homingTarget.position - transform.position);
+                targetDir.y = 0f;
+
+                if(targetDir.sqrMagnitude > 0.01f)
+                {
+                    var targetRot = Quaternion.LookRotation(targetDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * HomingTurnSpeed);
+                }
+            }
 
             transform.Translate(Vector3.forward * (_speed * 1.35f * Time.deltaTime), Space.Self);
+        }
+
+        private Transform FindClosestObstacleAhead()
+        {
+            int       count      = Physics.OverlapSphereNonAlloc(transform.position, HomingSearchRadius, OverlapBuffer);
+            Transform closest    = null;
+            float     minSqrDist = float.MaxValue;
+
+            for(int i = 0; i < count; i++)
+            {
+                var col = OverlapBuffer[i];
+                if(col == null) continue;
+
+                Obstacle obs = null;
+                if(col.TryGetComponent<ObstacleLayer>(out var layer))
+                    obs = layer.ParentObstacle;
+                else if(col.TryGetComponent<Obstacle>(out var mainObs))
+                    obs = mainObs;
+
+                if(obs != null && obs.CurrentHealth > 0 && obs.transform.position.z > transform.position.z - 1f)
+                {
+                    float sqrDist = (obs.transform.position - transform.position).sqrMagnitude;
+                    if(sqrDist < minSqrDist)
+                    {
+                        minSqrDist = sqrDist;
+                        closest    = obs.transform;
+                    }
+                }
+            }
+
+            return closest;
         }
 
         public bool TryMarkHit(Obstacle obstacle)
@@ -179,7 +224,6 @@ namespace Gameplay
 
             if(_type == WeaponType.Boomerang)
             {
-                _isReturning = true;
                 return true;
             }
 
@@ -237,6 +281,7 @@ namespace Gameplay
             _pierceCount       = 0;
             _ownerTransform    = null;
             _audioManager      = null;
+            _homingTarget      = null;
             transform.rotation = Quaternion.identity;
         }
     }

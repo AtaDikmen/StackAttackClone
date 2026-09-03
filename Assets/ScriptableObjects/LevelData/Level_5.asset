@@ -1,0 +1,700 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78ca1d76a5540e6b7801b5cdeb5ff5c, type: 3}
+  m_Name: Level_5
+  m_EditorClassIdentifier: 
+  levelIndex: 5
+  obstacleFallSpeed: 2
+  xpToLevelUp: 45
+  waves:
+  - delayBeforeWave: 1.8
+    obstacles:
+    - xPosition: -3
+      health: 25
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -1
+      health: 25
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1.5
+      health: 25
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3.5
+      health: 25
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -3
+      health: 30
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 10
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 30
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 11
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -4
+      health: 30
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 20
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -2
+      health: 30
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 20
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 0
+      health: 30
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 20
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2
+    obstacles:
+    - xPosition: 0
+      health: 35
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 30
+      movementPattern: 2
+      orbitRadius: 2
+      pingPongSpeed: 3.2
+      pingPongRange: 2.2
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2.1
+    obstacles:
+    - xPosition: -4.2
+      health: 35
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 40
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -2
+      health: 35
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 40
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 0
+      health: 35
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 40
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 2
+      health: 35
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: 40
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.8
+    obstacles:
+    - xPosition: -3
+      health: 40
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -1
+      health: 40
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1
+      health: 40
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 40
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 5
+      health: 40
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: 0
+      health: 40
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 60
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 2
+      health: 40
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 60
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 4
+      health: 40
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 60
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -3
+      health: 45
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 70
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 45
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 71
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2
+    obstacles:
+    - xPosition: 0
+      health: 50
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 80
+      movementPattern: 2
+      orbitRadius: 2
+      pingPongSpeed: 3.8
+      pingPongRange: 2.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2.1
+    obstacles:
+    - xPosition: -0.20000005
+      health: 50
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 90
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1.9999999
+      health: 50
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 90
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 4
+      health: 50
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 90
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 6
+      health: 50
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 90
+      movementPattern: 1
+      orbitRadius: 2.2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.8
+    obstacles:
+    - xPosition: -3
+      health: 55
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -1
+      health: 55
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1
+      health: 55
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 55
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 5
+      health: 55
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -3.5
+      health: 60
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: 110
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -1.5
+      health: 60
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 110
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 0.5
+      health: 60
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: 110
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -3
+      health: 60
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 120
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 60
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 121
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2
+    obstacles:
+    - xPosition: 0
+      health: 65
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: 130
+      movementPattern: 2
+      orbitRadius: 2
+      pingPongSpeed: 4.2
+      pingPongRange: 2.8
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2.1
+    obstacles:
+    - xPosition: -2.5
+      health: 70
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 140
+      movementPattern: 1
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -0.000000109278474
+      health: 70
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 140
+      movementPattern: 1
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1.9999999
+      health: 70
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 140
+      movementPattern: 1
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 4
+      health: 70
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 140
+      movementPattern: 1
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -0.5
+      health: 70
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 150
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1.5
+      health: 70
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 150
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3.5
+      health: 70
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 150
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -3
+      health: 75
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 160
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 75
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: 161
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 2
+    obstacles:
+    - xPosition: 0
+      health: 80
+      obstacleColor: {r: 0.9, g: 0.4, b: 0.2, a: 1}
+      groupId: 170
+      movementPattern: 2
+      orbitRadius: 2
+      pingPongSpeed: 4.5
+      pingPongRange: 3
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.9
+    obstacles:
+    - xPosition: -2
+      health: 80
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 180
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 0
+      health: 80
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: 180
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 2
+      health: 80
+      obstacleColor: {r: 0.8, g: 0.3, b: 0.8, a: 1}
+      groupId: 180
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 1.7
+    obstacles:
+    - xPosition: -3
+      health: 85
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: -1
+      health: 85
+      obstacleColor: {r: 0.2, g: 0.6, b: 0.9, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 1
+      health: 85
+      obstacleColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 3
+      health: 85
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+    - xPosition: 5
+      health: 85
+      obstacleColor: {r: 0.3, g: 0.8, b: 0.4, a: 1}
+      groupId: -1
+      movementPattern: 0
+      orbitRadius: 2
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 20
+  - delayBeforeWave: 3
+    obstacles:
+    - xPosition: 0
+      health: 280
+      obstacleColor: {r: 0.9, g: 0.15, b: 0.2, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 1
+      xpRewardPerLayer: 0
+    - xPosition: 2
+      health: 45
+      obstacleColor: {r: 0.6, g: 0.15, b: 0.25, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 0
+    - xPosition: 0
+      health: 45
+      obstacleColor: {r: 0.6, g: 0.15, b: 0.25, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 0
+    - xPosition: 2
+      health: 45
+      obstacleColor: {r: 0.6, g: 0.15, b: 0.25, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 0
+    - xPosition: 0
+      health: 45
+      obstacleColor: {r: 0.6, g: 0.15, b: 0.25, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 0
+    - xPosition: 2
+      health: 45
+      obstacleColor: {r: 0.6, g: 0.15, b: 0.25, a: 1}
+      groupId: 999
+      movementPattern: 3
+      orbitRadius: 2.5
+      pingPongSpeed: 3
+      pingPongRange: 1.5
+      isBossUnit: 0
+      xpRewardPerLayer: 0

@@ -39,7 +39,7 @@ namespace Gameplay.Levels
         public bool isBossUnit = false;
 
         [Header("XP")]
-        public int xpRewardPerLayer = 10;
+        public int xpRewardPerLayer = 30;
     }
 
     [Serializable]

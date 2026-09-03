@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285446acbeff65842b24c47c16988923, type: 3}
   m_Name: Perk_Rocket_Damage
   m_EditorClassIdentifier: 
-  perkName: Rocket Blast Damage +8
-  description: Increases rocket AOE blast damage by +8.
+  perkName: Rocket Blast Damage +10
+  description: Increases rocket AOE blast damage by +10.
   icon: {fileID: 21300000, guid: d0d5e1a044be2dd40a6287507d717ecb, type: 3}
   modifier:
     statType: 2
     mode: 0
-    value: 8
+    value: 10
     targetWeapon: 2
     weaponOverride: 0

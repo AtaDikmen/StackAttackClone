@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Unlocks curved explosive rocket sub-weapon.
   icon: {fileID: 21300000, guid: d0d5e1a044be2dd40a6287507d717ecb, type: 3}
   modifier:
-    statType: 4
+    statType: 3
     mode: 0
     value: 1
     targetWeapon: 2

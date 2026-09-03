@@ -98,8 +98,8 @@ namespace Gameplay
 
         public void ResetWeaponStats()
         {
-            StandardStats.SetDefaults(WeaponType.Standard, unlocked: true, damage: 5, fireRate: 0.55f, speed: 18f, count: 1);
-            BoomerangStats.SetDefaults(WeaponType.Boomerang, unlocked: false, damage: 9, fireRate: 2.00f, speed: 14f, count: 1);
+            StandardStats.SetDefaults(WeaponType.Standard, unlocked: true, damage: 5, fireRate: 0.70f, speed: 18f, count: 1);
+            BoomerangStats.SetDefaults(WeaponType.Boomerang, unlocked: false, damage: 10, fireRate: 2.00f, speed: 14f, count: 1);
             RocketStats.SetDefaults(WeaponType.Rocket, unlocked: false, damage: 15, fireRate: 2.80f, speed: 13f, count: 1);
         }
 
@@ -202,16 +202,16 @@ namespace Gameplay
 
         private void FirePrimary(Transform firePoint)
         {
-            float spacing = 0.35f;
+            float spacing = 0.5f;
             int   count   = StandardStats.ProjectileCount;
             float startX  = -((count - 1) * spacing) / 2f;
 
-            Vector3 forwardOffset = firePoint.forward * 0.6f;
+            var forwardOffset = firePoint.forward * 0.6f;
 
             for(int i = 0; i < count; i++)
             {
-                Vector3    spawnPos   = firePoint.position + forwardOffset + new Vector3(startX + i * spacing, 0, 0);
-                Projectile projectile = GetProjectile(spawnPos, firePoint.rotation, WeaponType.Standard);
+                var spawnPos   = firePoint.position + forwardOffset + new Vector3(startX + i * spacing, 0, 0);
+                var projectile = GetProjectile(spawnPos, firePoint.rotation, WeaponType.Standard);
 
                 projectile.Initialize(
                     damage: StandardStats.Damage,

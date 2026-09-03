@@ -1,4 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Data
 {
@@ -11,11 +14,8 @@ namespace Data
 
         public void SaveHighestLevel(int level)
         {
-            if(level > GetHighestLevel())
-            {
-                PlayerPrefs.SetInt(HighestLevelKey, level);
-                PlayerPrefs.Save();
-            }
+            PlayerPrefs.SetInt(HighestLevelKey, level);
+            PlayerPrefs.Save();
         }
 
         public int GetTotalXP() => PlayerPrefs.GetInt(TotalXPKey, 0);
@@ -26,11 +26,21 @@ namespace Data
             PlayerPrefs.Save();
         }
 
-        [System.Diagnostics.Conditional("UNITY_EDITOR")]
         public void ResetAll()
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
+            Debug.Log("<color=yellow>[SaveManager] Tüm PlayerPrefs verileri sıfırlandı!</color>");
         }
+
+#if UNITY_EDITOR
+        [MenuItem("Tools/Stack Attack/Clear All PlayerPrefs")]
+        public static void ClearPlayerPrefsFromMenu()
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            Debug.Log("<color=green>[SaveManager] PlayerPrefs Unity Menüsünden Sıfırlandı!</color>");
+        }
+#endif
     }
 }

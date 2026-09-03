@@ -103,7 +103,7 @@ namespace Core
 
         public void NextLevel()
         {
-            CurrentLevel++;
+            CurrentLevel = _saveManager?.GetHighestLevel() ?? 1;
             StartGame();
         }
 
@@ -126,17 +126,15 @@ namespace Core
             if(CurrentState != GameState.Playing) return;
 
             LastGameWon = true;
-            _saveManager?.SaveHighestLevel(CurrentLevel + 1);
+
+            int totalLevels = _levelSpawner != null && _levelSpawner.AvailableLevelCount > 0
+                ? _levelSpawner.AvailableLevelCount
+                : 5;
+
+            int nextLevel = (CurrentLevel % totalLevels) + 1;
+            _saveManager?.SaveHighestLevel(nextLevel);
 
             EndGame(true);
-        }
-
-        public void OnObstacleReachedKillPlane()
-        {
-            if(CurrentState != GameState.Playing) return;
-
-            LastGameWon = false;
-            EndGame(false);
         }
 
         private void HandlePlayerDied()

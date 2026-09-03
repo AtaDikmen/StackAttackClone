@@ -52,6 +52,13 @@ namespace Editor
             {
                 GenerateCircularWave(levelData);
             }
+            if(GUILayout.Button("Ping-Pong Dalgası (Horizontal)", GUILayout.Height(26)))
+            {
+                GeneratePingPongWave(levelData);
+            }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("Boss Dalgası (Merkez)", GUILayout.Height(26)))
             {
                 GenerateBossWave(levelData);
@@ -99,7 +106,7 @@ namespace Editor
                                        obstacleColor    = RandomColor(),
                                        groupId          = groupId,
                                        movementPattern  = MovementPatternType.SingleFalling,
-                                       xpRewardPerLayer = 10
+                                       xpRewardPerLayer = 30
                                    });
             }
 
@@ -201,6 +208,33 @@ namespace Editor
                                        orbitRadius     = 2.0f
                                    });
             }
+
+            LevelData.SanitizeWaveOverlaps(wave, _laneSpacing);
+            levelData.waves.Add(wave);
+            EditorUtility.SetDirty(levelData);
+        }
+
+        private void GeneratePingPongWave(LevelData levelData)
+        {
+            WaveData wave = new WaveData
+                            {
+                                delayBeforeWave = 2.0f,
+                                obstacles       = new List<ObstacleSetup>()
+                            };
+
+            int groupId = levelData.waves.Count * 10;
+
+            wave.obstacles.Add(new ObstacleSetup
+                               {
+                                   xPosition        = 0f,
+                                   health           = Random.Range(3, 6) * 10,
+                                   obstacleColor    = RandomColor(),
+                                   groupId          = groupId,
+                                   movementPattern  = MovementPatternType.PingPongHorizontal,
+                                   pingPongSpeed    = 3.0f,
+                                   pingPongRange    = 2.0f,
+                                   xpRewardPerLayer = 30
+                               });
 
             LevelData.SanitizeWaveOverlaps(wave, _laneSpacing);
             levelData.waves.Add(wave);

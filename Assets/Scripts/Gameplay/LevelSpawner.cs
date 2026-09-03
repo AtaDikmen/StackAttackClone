@@ -142,8 +142,9 @@ namespace Gameplay
 
             bossWave ??= CreateDefaultBossWave();
 
-            foreach(var wave in normalWaves)
+            for(int i = 0; i < normalWaves.Count; i++)
             {
+                var wave = normalWaves[i];
                 await UniTask.Delay(TimeSpan.FromSeconds(wave.delayBeforeWave), cancellationToken: token);
 
                 if(GameManager == null || GameManager.CurrentState != GameState.Playing) return;
@@ -151,17 +152,33 @@ namespace Gameplay
                 SpawnNormalWave(wave, levelData.obstacleFallSpeed);
             }
 
-            await UniTask.WaitUntil(
-                () => AreAllNormalObstaclesCleared() || (GameManager != null && GameManager.CurrentState != GameState.Playing),
-                cancellationToken: token
-            );
+            Debug.Log("[LevelSpawner] Tüm normal dalgalar fırlatıldı. Engellerin temizlenmesi bekleniyor...");
+            bool isCleared = false;
+            try
+            {
+                await UniTask.WaitUntil(AreAllNormalObstaclesCleared, cancellationToken: token)
+                             .Timeout(TimeSpan.FromSeconds(10));
+                isCleared = true;
+            }
+            catch(TimeoutException)
+            {
+                Debug.LogWarning("[LevelSpawner] UYARI: Normal dalga temizliği 10 saniye içinde tamamlanamadı! Sahnede takılan engeller teşhis ediliyor...");
+                LogStuckObstacles();
+            }
 
-            if(GameManager == null || GameManager.CurrentState != GameState.Playing) return;
+            if(GameManager is not { CurrentState: GameState.Playing }) return;
+
+            if(!isCleared)
+            {
+                Debug.LogWarning("[LevelSpawner] Fail-Safe Devrede: Takılan engeller temizlenip Boss Evresi zorla başlatılıyor.");
+                ClearActiveObstacles();
+            }
 
             await UniTask.Delay(TimeSpan.FromSeconds(0.8f), cancellationToken: token);
 
             if(GameManager == null || GameManager.CurrentState != GameState.Playing) return;
 
+            Debug.Log("[LevelSpawner] Boss Evresi Başlatılıyor!");
             await StartBossPhase(bossWave, levelData.obstacleFallSpeed, token);
         }
 
@@ -175,8 +192,27 @@ namespace Gameplay
                 if(groupObj == null) continue;
 
                 var group = groupObj.GetComponent<ObstacleGroup>();
-                if(group == null || group.Members == null || group.Members.Count == 0)
+                if(group == null || group.Members == null)
+                {
                     _normalGroupObjects.RemoveAt(i);
+                    continue;
+                }
+
+                bool hasAliveMember = false;
+                for(int j = 0; j < group.Members.Count; j++)
+                {
+                    var member = group.Members[j];
+                    if(member != null && member.CurrentHealth > 0)
+                    {
+                        hasAliveMember = true;
+                        break;
+                    }
+                }
+
+                if(!hasAliveMember)
+                {
+                    _normalGroupObjects.RemoveAt(i);
+                }
             }
 
             return _normalGroupObjects.Count == 0;
@@ -186,6 +222,7 @@ namespace Gameplay
         {
             Vector3 origin = spawnOrigin != null ? spawnOrigin.position : new Vector3(0f, 0f, 30f);
             origin.x = 0f;
+            origin.y = 0f;
             return origin;
         }
 
@@ -367,8 +404,7 @@ namespace Gameplay
 
         private Obstacle InstantiateObstacle(Vector3 origin, ObstacleSetup setup)
         {
-            float   yOffset  = setup.isBossUnit ? 0f : 2f;
-            Vector3 spawnPos = origin + new Vector3(setup.xPosition, yOffset, 0f);
+            Vector3 spawnPos = origin + new Vector3(setup.xPosition, 0f, 0f);
 
             Obstacle obstacle;
             if(obstaclePrefab != null)
@@ -523,6 +559,34 @@ namespace Gameplay
             return wave;
         }
 
+        private void LogStuckObstacles()
+        {
+            int stuckCount = 0;
+            foreach(var groupObj in _normalGroupObjects)
+            {
+                if(groupObj == null) continue;
+                var group = groupObj.GetComponent<ObstacleGroup>();
+                if(group == null) continue;
+
+                foreach(var member in group.Members)
+                {
+                    if(member != null && member.CurrentHealth > 0)
+                    {
+                        stuckCount++;
+                        Debug.LogError($"[Takılan Obje Teşhisi] Adı: {member.gameObject.name} | " +
+                                       $"Canı: {member.CurrentHealth}/{member.MaxHealth} | " +
+                                       $"Pozisyonu: {member.transform.position} | " +
+                                       $"Grup: {groupObj.name}");
+                    }
+                }
+            }
+
+            if(stuckCount == 0)
+            {
+                Debug.LogWarning("[LevelSpawner] Sahnede canlı üye bulunamadı fakat Grup konteynerı silinmediği için takılma oluşmuş.");
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Vector3 originPos = GetGuaranteedCenterSpawnOrigin();
@@ -533,8 +597,8 @@ namespace Gameplay
             Gizmos.color = Color.cyan;
             foreach(float x in LevelData.STANDARD_LANES)
             {
-                Vector3 startPos = new Vector3(x, 2f, 0f);
-                Vector3 endPos   = new Vector3(x, 2f, originPos.z);
+                Vector3 startPos = new Vector3(x, 0f, 0f);
+                Vector3 endPos   = new Vector3(x, 0f, originPos.z);
                 Gizmos.DrawLine(startPos, endPos);
                 Gizmos.DrawWireCube(endPos, new Vector3(1f, 1f, 1f));
             }

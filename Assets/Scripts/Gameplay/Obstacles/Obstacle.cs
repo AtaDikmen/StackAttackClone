@@ -46,8 +46,7 @@ namespace Gameplay.Obstacles
             _xpRewardPerLayer = xpRewardPerLayer;
             _isBossUnit       = isBossUnit;
 
-            int layerCount = Mathf.CeilToInt((float)totalHealth / hpPerLayer);
-
+            int   layerCount      = Mathf.CeilToInt((float)totalHealth / hpPerLayer);
             float halfLayerHeight = layerHeightOffset * 0.5f;
 
             for(int i = 0; i < layerCount; i++)
@@ -94,7 +93,7 @@ namespace Gameplay.Obstacles
             return cube.AddComponent<ObstacleLayer>();
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, bool grantXP = true)
         {
             if(_currentHealth <= 0) return;
 
@@ -111,8 +110,12 @@ namespace Gameplay.Obstacles
                 _visualLayers.RemoveAt(topIndex);
 
                 RecycleLayer(topLayer);
-                _xpSystem?.AddXP(_xpRewardPerLayer);
-                _audioManager?.PlayObstacleDestroy();
+
+                if(grantXP)
+                {
+                    _xpSystem?.AddXP(_xpRewardPerLayer);
+                    _audioManager?.PlayObstacleDestroy();
+                }
             }
 
             if(_currentHealth <= 0)
@@ -155,8 +158,9 @@ namespace Gameplay.Obstacles
                 RecycleLayer(_visualLayers[i]);
             _visualLayers.Clear();
 
-            OnDefeated += null;
             OnDefeated?.Invoke();
+            OnDefeated = null;
+
             Destroy(gameObject);
         }
 

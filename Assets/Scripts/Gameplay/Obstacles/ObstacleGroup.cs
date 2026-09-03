@@ -47,6 +47,9 @@ namespace Gameplay.Obstacles
         private void Update()
         {
             _behavior?.Tick(Time.deltaTime);
+
+            if(transform.position.z < -10f)
+                DespawnGroup();
         }
 
         private void HandleMemberDefeated(Obstacle obstacle)
@@ -55,6 +58,17 @@ namespace Gameplay.Obstacles
 
             if(_members.Count == 0)
                 Destroy(gameObject);
+        }
+
+        private void DespawnGroup()
+        {
+            for(int i = _members.Count - 1; i >= 0; i--)
+            {
+                if(_members[i] != null)
+                    Destroy(_members[i].gameObject);
+            }
+            _members.Clear();
+            Destroy(gameObject);
         }
     }
 }

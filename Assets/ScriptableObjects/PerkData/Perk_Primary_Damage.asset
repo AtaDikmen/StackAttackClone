@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285446acbeff65842b24c47c16988923, type: 3}
   m_Name: Perk_Primary_Damage
   m_EditorClassIdentifier: 
-  perkName: Primary Damage +3
-  description: Increases primary bullet damage by +3.
+  perkName: Primary Damage +5
+  description: Increases primary bullet damage by +5.
   icon: {fileID: 21300000, guid: 09e3b74eddee9e342972e2d173844c76, type: 3}
   modifier:
     statType: 2
     mode: 0
-    value: 3
+    value: 5
     targetWeapon: 0
     weaponOverride: 0
