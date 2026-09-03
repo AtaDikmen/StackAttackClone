@@ -1,5 +1,7 @@
 using System;
+using Audio;
 using UnityEngine;
+using VContainer;
 
 namespace Systems
 {
@@ -10,6 +12,14 @@ namespace Systems
 
         public event Action<int, int> OnHealthChanged;
         public event Action           OnPlayerDied;
+
+        private readonly AudioManager _audioManager;
+
+        [Inject]
+        public HealthSystem(AudioManager audioManager = null)
+        {
+            _audioManager = audioManager;
+        }
 
         public void ResetHealth(int max = 3)
         {
@@ -23,6 +33,7 @@ namespace Systems
             if(CurrentHealth <= 0) return;
 
             CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
+            _audioManager?.PlayDamage();
             OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
             if(CurrentHealth <= 0)

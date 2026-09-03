@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -25,6 +26,7 @@ namespace Core
         [SerializeField] private LevelSpawner levelSpawner;
         [SerializeField] private UIManager         uiManager;
         [SerializeField] private ObstacleLayerPool obstacleLayerPool;
+        [SerializeField] private AudioManager      audioManager;
 
         [Header("Perks Pool")]
         [SerializeField] private List<PerkDefinition> perkPool = new List<PerkDefinition>();
@@ -43,6 +45,7 @@ namespace Core
             if(levelSpawner != null) builder.RegisterComponent(levelSpawner);
             if(uiManager != null) builder.RegisterComponent(uiManager);
             if(obstacleLayerPool != null) builder.RegisterComponent(obstacleLayerPool);
+            if(audioManager != null) builder.RegisterComponent(audioManager);
 
             builder.RegisterEntryPoint<GameManager>(Lifetime.Singleton)
                    .WithParameter(playerControllerPrefab)

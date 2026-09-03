@@ -6,6 +6,7 @@ using Data;
 using Gameplay;
 using Gameplay.Obstacles;
 using Systems;
+using Audio;
 
 namespace Core
 {
@@ -40,6 +41,7 @@ namespace Core
         private readonly XPSystem         _xpSystem;
         private readonly PerkSystem       _perkSystem;
         private readonly HealthSystem     _healthSystem;
+        private readonly AudioManager     _audioManager;
 
         private PlayerController _currentPlayer;
 
@@ -52,7 +54,8 @@ namespace Core
             SaveManager      saveManager,
             XPSystem         xpSystem,
             PerkSystem       perkSystem,
-            HealthSystem     healthSystem)
+            HealthSystem     healthSystem,
+            AudioManager     audioManager = null)
         {
             _resolver     = resolver;
             _playerPrefab = playerPrefab;
@@ -62,6 +65,7 @@ namespace Core
             _xpSystem     = xpSystem;
             _perkSystem   = perkSystem;
             _healthSystem = healthSystem;
+            _audioManager = audioManager;
         }
 
         public void Start()
@@ -140,7 +144,7 @@ namespace Core
             if(CurrentState != GameState.Playing) return;
 
             LastGameWon = false;
-            EndGame(false); // Tüm kalpler bittiğinde Level Failed
+            EndGame(false);
         }
 
         private void HandlePerkLevelUp()
@@ -155,6 +159,11 @@ namespace Core
         private void EndGame(bool isWin)
         {
             Time.timeScale = 1f;
+            if(isWin)
+                _audioManager?.PlayWin();
+            else
+                _audioManager?.PlayLose();
+
             ChangeState(GameState.EndGame);
             OnGameEnded?.Invoke(isWin);
         }

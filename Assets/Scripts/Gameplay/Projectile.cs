@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Data;
 using Gameplay.Obstacles;
+using Audio;
 
 namespace Gameplay
 {
@@ -32,6 +33,7 @@ namespace Gameplay
         private float _explosionRadius = 2.5f;
 
         private IObjectPool<Projectile> _pool;
+        private AudioManager            _audioManager;
 
         private readonly static Collider[]   OverlapBuffer       = new Collider[32];
         private readonly static HashSet<int> ExplodedObstacleIds = new HashSet<int>();
@@ -48,7 +50,8 @@ namespace Gameplay
             Transform               ownerTransform  = null,
             float                   curveDirection  = 0f,
             float                   explosionRadius = 2.5f,
-            int                     pierceCount     = 0)
+            int                     pierceCount     = 0,
+            AudioManager            audioManager    = null)
         {
             _damage          = damage > 0 ? damage : defaultDamage;
             _speed           = speed > 0 ? speed : defaultSpeed;
@@ -58,12 +61,13 @@ namespace Gameplay
             _curveDirection  = curveDirection != 0f ? curveDirection : 1f;
             _explosionRadius = explosionRadius > 0 ? explosionRadius : 2.5f;
             _pierceCount     = pierceCount;
+            _audioManager    = audioManager;
 
             _aliveTime     = 0f;
             _forwardTravel = 0f;
             _startPosition = transform.position;
             _isReturning   = false;
-            _isRecycled    = false; // Havuzdan çekildiğinde kilidi kaldır
+            _isRecycled    = false;
             _hitObstacleIds.Clear();
 
             if(_type == WeaponType.Rocket)
@@ -184,6 +188,8 @@ namespace Gameplay
 
         private void ExplodeAOE()
         {
+            _audioManager?.PlayRocketImpact();
+
             ExplodedObstacleIds.Clear();
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _explosionRadius, OverlapBuffer);
 
@@ -230,6 +236,7 @@ namespace Gameplay
             _isReturning       = false;
             _pierceCount       = 0;
             _ownerTransform    = null;
+            _audioManager      = null;
             transform.rotation = Quaternion.identity;
         }
     }

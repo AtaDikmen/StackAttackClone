@@ -8,6 +8,7 @@ using Gameplay.Levels;
 using Gameplay.Obstacles;
 using Gameplay.Obstacles.Behaviors;
 using Systems;
+using Audio;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
@@ -34,6 +35,7 @@ namespace Gameplay
 
         private GameManager             _gameManager;
         private XPSystem                _xpSystem;
+        private AudioManager            _audioManager;
         private IObjectResolver         _resolver;
         private CancellationTokenSource _cts;
 
@@ -47,8 +49,9 @@ namespace Gameplay
         private Color            _originalGroundColor;
         private bool             _hasCapturedOriginalColors;
 
-        private GameManager GameManager => _gameManager ??= _resolver?.Resolve<GameManager>();
-        private XPSystem    XPSystem    => _xpSystem ??= _resolver?.Resolve<XPSystem>();
+        private GameManager  GameManager  => _gameManager  ??= _resolver?.Resolve<GameManager>();
+        private XPSystem     XPSystem     => _xpSystem     ??= _resolver?.Resolve<XPSystem>();
+        private AudioManager AudioManager => _audioManager ??= _resolver?.Resolve<AudioManager>();
 
         public int AvailableLevelCount => levels != null ? levels.Length : 0;
 
@@ -252,6 +255,7 @@ namespace Gameplay
         public async UniTask StartBossPhase(WaveData bossWave, float fallSpeed, CancellationToken token)
         {
             XPSystem?.SetXPEnabled(false);
+            AudioManager?.PlayBossPhaseStart();
 
             TransitionBackgroundColor(bossPhaseBgColor, bgTransitionDuration, token).Forget();
 

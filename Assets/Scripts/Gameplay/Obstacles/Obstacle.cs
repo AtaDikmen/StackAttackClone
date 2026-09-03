@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 using Systems;
+using Audio;
 
 namespace Gameplay.Obstacles
 {
@@ -21,6 +22,7 @@ namespace Gameplay.Obstacles
         private readonly List<ObstacleLayer> _visualLayers = new List<ObstacleLayer>();
         private          ObstacleLayerPool   _layerPool;
         private          XPSystem            _xpSystem;
+        private          AudioManager        _audioManager;
 
         public event Action           OnDefeated;
         public event Action<int, int> OnHealthChanged;
@@ -30,10 +32,11 @@ namespace Gameplay.Obstacles
         public int  MaxHealth     => _maxHealth;
 
         [Inject]
-        public void Construct(ObstacleLayerPool layerPool, XPSystem xpSystem)
+        public void Construct(ObstacleLayerPool layerPool, XPSystem xpSystem, AudioManager audioManager = null)
         {
-            _layerPool = layerPool;
-            _xpSystem  = xpSystem;
+            _layerPool    = layerPool;
+            _xpSystem     = xpSystem;
+            _audioManager = audioManager;
         }
 
         public void Initialize(int totalHealth, Color color, int xpRewardPerLayer = 10, bool isBossUnit = false)
@@ -109,6 +112,7 @@ namespace Gameplay.Obstacles
 
                 RecycleLayer(topLayer);
                 _xpSystem?.AddXP(_xpRewardPerLayer);
+                _audioManager?.PlayObstacleDestroy();
             }
 
             if(_currentHealth <= 0)

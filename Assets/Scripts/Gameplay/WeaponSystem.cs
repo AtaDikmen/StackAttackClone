@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using Data;
+using Audio;
+using VContainer;
 using Object = UnityEngine.Object;
 
 namespace Gameplay
@@ -43,6 +45,8 @@ namespace Gameplay
         private ObjectPool<Projectile> _boomerangPool;
         private ObjectPool<Projectile> _rocketPool;
 
+        private readonly AudioManager _audioManager;
+
         public WeaponStats StandardStats  { get; } = new WeaponStats();
         public WeaponStats BoomerangStats { get; } = new WeaponStats();
         public WeaponStats RocketStats    { get; } = new WeaponStats();
@@ -54,8 +58,10 @@ namespace Gameplay
         public WeaponType CurrentWeaponType => WeaponType.Standard;
         public float      FireInterval      => StandardStats.FireInterval;
 
-        public WeaponSystem()
+        [Inject]
+        public WeaponSystem(AudioManager audioManager = null)
         {
+            _audioManager = audioManager;
             ResetWeaponStats();
         }
 
@@ -212,9 +218,12 @@ namespace Gameplay
                     speed: StandardStats.Speed,
                     type: WeaponType.Standard,
                     pool: _standardPool,
+                    audioManager: _audioManager,
                     pierceCount: StandardStats.PierceCount
                 );
             }
+
+            _audioManager?.PlayShoot();
         }
 
         public void TickSubWeapons(Transform firePoint)
@@ -254,9 +263,12 @@ namespace Gameplay
                     type: WeaponType.Boomerang,
                     pool: _boomerangPool,
                     ownerTransform: firePoint,
-                    curveDirection: curveDirection
+                    curveDirection: curveDirection,
+                    audioManager: _audioManager
                 );
             }
+
+            _audioManager?.PlayBoomerangFire();
         }
 
         private void FireRockets(Transform firePoint)
@@ -276,9 +288,12 @@ namespace Gameplay
                     type: WeaponType.Rocket,
                     pool: _rocketPool,
                     curveDirection: curveDir,
-                    explosionRadius: 2.5f
+                    explosionRadius: 2.5f,
+                    audioManager: _audioManager
                 );
             }
+
+            _audioManager?.PlayRocketFire();
         }
 
         private Projectile GetProjectile(Vector3 position, Quaternion rotation, WeaponType type)

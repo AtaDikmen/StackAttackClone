@@ -9,7 +9,7 @@ namespace Systems
         public int   CurrentPerkLevel { get; private set; } = 1;
         public int   XPToNextLevel    { get; private set; } = 100;
         public int   BaseXP           { get; private set; } = 100;
-        public float GrowthFactor     { get; set; }         = 1.25f;
+        public float GrowthFactor     { get; set; }         = 1.10f;
         public bool  IsXPDisabled     { get; set; }         = false;
 
         public event Action<float> OnXPChanged;
