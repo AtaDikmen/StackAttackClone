@@ -114,7 +114,11 @@ namespace Gameplay
         {
             _cts?.Cancel();
             _cts = new CancellationTokenSource();
+            DestroyAllObstacleObjects();
+        }
 
+        private void DestroyAllObstacleObjects()
+        {
             foreach(var groupObj in _spawnedGroupObjects)
             {
                 if(groupObj != null) Destroy(groupObj);
@@ -171,7 +175,7 @@ namespace Gameplay
             if(!isCleared)
             {
                 Debug.LogWarning("[LevelSpawner] Fail-Safe Devrede: Takılan engeller temizlenip Boss Evresi zorla başlatılıyor.");
-                ClearActiveObstacles();
+                DestroyAllObstacleObjects(); // Token'ı iptal etmeden sadece objeleri temizler
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(0.8f), cancellationToken: token);
